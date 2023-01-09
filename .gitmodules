@@ -1,0 +1,3 @@
+[submodule "Front-End/emstore-update"]
+	path = Front-End/emstore-update
+	url = https://github.com/bhanubandi05/productstore-2.0.git
