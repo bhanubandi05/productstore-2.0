@@ -40,7 +40,7 @@ class AddNewProduct extends React.Component
           this.setState({fields:fields});      
                 
         try{
-            axios.post("http://localhost:8080/api/v1/save",
+            axios.post("http://example.backend.com/api/v1/save",
             {
               productName: this.state.fields.productName,
                 description: this.state.fields.description,

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = "http://localhost:8080/api/v3"
+const baseUrl = "http://example.backend.com/api/v3"
 
 
 var postConfig = {

@@ -12,7 +12,7 @@ const Sales = () => {
 
     const getSales = () => {
        
-        axios.get("http://localhost:8080/api/v3/sales")
+        axios.get("http://example.backend.com/api/v3/sales")
             .then(res => {               
                 setSales(res.data)
             })

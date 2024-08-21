@@ -40,7 +40,7 @@ export default function PurchaseForm()
 
     const handlePurchase=(e)=>
     {
-          axios.post('http://localhost:8080/api/v2/purchase/save/',
+          axios.post('http://example.backend.com/api/v2/purchase/save/',
           {
             productId: productId,
               purchaseQty: purchaseQty,

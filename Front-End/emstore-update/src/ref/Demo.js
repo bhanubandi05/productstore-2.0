@@ -20,7 +20,7 @@ const Purchase = () => {
             .catch(err => console.log(err))
         }
     const getProduct = () => {
-        axios.get("http://localhost:8080/api/v1/productStore")
+        axios.get("http://example.backend.com/api/v1/productStore")
         .then(res => { setProductDetails(res.data)
             }).catch(err => console.log(err))
         }

@@ -24,8 +24,8 @@ spec:
   - name: http
     port: 8080
     targetPort: 8080
-    nodePort: 30001
-  type: NodePort
+  #   nodePort: 30001
+# type: NodePort
 ---
 apiVersion: v1
 kind: Service
@@ -40,8 +40,8 @@ spec:
   - name: http
     port: 3000
     targetPort: 3000
-    nodePort: 30002
-  type: NodePort
+  #   nodePort: 30002
+# type: NodePort
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -59,7 +59,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: bhanubandi1999/product-back-end:v3
+        image: bhanubandi1999/back-k8s
         ports:
         - containerPort: 8080
         env:
@@ -69,6 +69,7 @@ spec:
           value: postgres
         - name: SPRING_DATASOURCE_PASSWORD
           value: root
+
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -96,6 +97,13 @@ spec:
           value: productstore
         ports:
         - containerPort: 5432
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: postgres-pv
+      volumes:
+      - name: postgres-pv
+        persistentVolumeClaim:
+          claimName: postgres-pvc
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -113,35 +121,62 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: bhanubandi1999/product-front-end:v3
+        image: bhanubandi1999/front-k8s
         ports:
         - containerPort: 3000
-# ---
-# apiVersion: v1
-# kind: PersistentVolume
-# metadata:
-#   name: postgres-pv
-#   labels:
-#     type: local
-# spec:
-#   storageClassName: manual
-#   capacity:
-#     storage: 1Gi
-#   accessModes:
-#     - ReadWriteOnce
-#   hostPath:
-#     path: "C:/"
-
-# ---
-
-# apiVersion: v1
-# kind: PersistentVolumeClaim
-# metadata:
-#   name: postgres-pvc
-# spec:
-#   storageClassName: manual
-#   accessModes:
-#     - ReadWriteOnce
-#   resources:
-#     requests:
-#       storage: 1Gi
+# https://kubernetes.io/docs/concepts/services-networking/ingress/
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: example-ingress
+  namespace: default
+spec:
+  rules:
+  - host: example.backend.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: backend
+            port:
+              number: 8080
+  - host: example.frontend.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: frontend
+            port:
+              number: 3000
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: postgres-pv
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+  - ReadWriteOnce
+  hostPath:
+    path: "/data/"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+spec:
+  storageClassName: manual
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
