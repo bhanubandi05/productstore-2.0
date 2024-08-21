@@ -47,7 +47,7 @@ export default function SalesForm()
       }
       else
       {
-           axios.post('http://example.backend.com/api/v3/sales/Save/'+rolesId+'/'+productId,
+           axios.post('http://localhost:8080/api/v3/sales/Save/'+rolesId+'/'+productId,
           {
             
               saleQty: saleQty,
