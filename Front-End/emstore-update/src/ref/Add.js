@@ -57,7 +57,7 @@ const AddProduct= ()  =>
     {
         if ( Object.keys(formError).length === 0 && isSubmit )
         {
-            axios.post('http://example.backend.com/api/v1/save',
+            axios.post('http://localhost:8080/api/v1/save',
             {
                 productName:formValue.productName,
                 description:formValue.description,

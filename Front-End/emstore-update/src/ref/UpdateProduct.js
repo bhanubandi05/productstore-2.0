@@ -21,7 +21,7 @@ export default function Update()
     const handleUpdate=(e)=>
     {
        
-          axios.put('http://example.backend.com/api/v1/productStore/update/' + productId,
+          axios.put('http://localhost:8080/api/v1/productStore/update/' + productId,
           {
             productName: productName,
             description: description,
